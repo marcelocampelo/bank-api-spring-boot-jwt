@@ -1,14 +1,24 @@
 package br.com.bank.restapispringboot.models;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name="person")
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /*Besides*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    @Column(name = "email", length = 50, nullable = false)
     private String email;
+    @Column(name = "name", length = 120, nullable = false)
+    private String name;
+    @Column(name = "password", nullable = false)
     private String password;
 
     public Person () {
@@ -57,6 +67,6 @@ public class Person implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password);
+        return Objects.hash(id,name, email, password);
     }
 }

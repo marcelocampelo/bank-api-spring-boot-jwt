@@ -1,44 +1,42 @@
 package br.com.bank.restapispringboot.services;
 
+import br.com.bank.restapispringboot.exceptions.ResourceNotFound;
 import br.com.bank.restapispringboot.models.Person;
+import br.com.bank.restapispringboot.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PersonServices {
     /* This counter is going to simulate the id Key of the database since we won't use one over this project */
-    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    PersonRepository repository;
 
-    public Person create(Person person) {
-        return person;
+    public Person createUser(Person person) {
+        return repository.save(person);
     }
 
-    public Person findById(String id) {
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setName("whitemartins");
-        person.setEmail("white@martins");
-        person.setPassword("123456");
-        return person;
-    }
-    public List<Person> findAllUsers() {
-        List<Person> users = new ArrayList<Person>();
-        for (int i =0; i < 10; i++) {
-            Person person = mockPerson(i);
-            users.add(person);
-        }
-        return users;
+    public List<Person> findAll() {
+        return repository.findAll();
     }
 
-    private Person mockPerson(int i) {
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setName("whitemartins" + i);
-        person.setEmail("white@martins");
-        person.setPassword("123456");
-        return person;
+    public Person update(Person person) {
+        Person entity = repository.findById(person.getId())
+                .orElseThrow(() -> new ResourceNotFound("No records found for this ID"));
+
+        entity.setName(person.getName());
+        entity.setEmail(person.getEmail());
+        entity.setPassword(person.getPassword());
+
+        return repository.save(entity);
+    }
+
+    public void delete(Long id) {
+        Person entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("No records found for this ID"));
+        repository.delete(entity);
     }
 }
