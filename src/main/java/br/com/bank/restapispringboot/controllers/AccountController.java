@@ -2,9 +2,11 @@ package br.com.bank.restapispringboot.controllers;
 
 import br.com.bank.restapispringboot.models.Account;
 import br.com.bank.restapispringboot.models.Person;
+import br.com.bank.restapispringboot.models.Transfer;
 import br.com.bank.restapispringboot.services.AccountServices;
 import br.com.bank.restapispringboot.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,4 +29,8 @@ public class AccountController {
         return services.createAccount(account);
     }
 
+    @PostMapping("/transfer")
+    public Transfer create(@RequestBody Transfer transfer) {
+        return services.transfer(transfer);
+    }
 }

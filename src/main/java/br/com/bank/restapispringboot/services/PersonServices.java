@@ -3,6 +3,7 @@ package br.com.bank.restapispringboot.services;
 import br.com.bank.restapispringboot.exceptions.ResourceNotFound;
 import br.com.bank.restapispringboot.models.Person;
 import br.com.bank.restapispringboot.repositories.PersonRepository;
+import br.com.bank.restapispringboot.responses.UserCreated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 import br.com.bank.restapispringboot.models.Person;
+import br.com.bank.restapispringboot.responses.UserCreated;
 import br.com.bank.restapispringboot.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,8 +26,15 @@ public class PersonController {
     }
 
     @PostMapping
-    public Person create(@RequestBody Person person) {
-        return services.createUser(person);
+
+    @ResponseBody
+    public UserCreated userCreated(
+            @RequestBody Person person) {
+                services.createUser(person);
+                UserCreated user = new UserCreated();
+                user.setName(person.getName());
+                user.setEmail(person.getEmail());
+                return user;
     }
 
     @PutMapping
