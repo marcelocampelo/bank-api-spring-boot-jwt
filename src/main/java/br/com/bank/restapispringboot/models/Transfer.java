@@ -2,6 +2,7 @@ package br.com.bank.restapispringboot.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +19,7 @@ public class Transfer implements Serializable {
     @Column(name = "destination", nullable = false)
     private Long destination_account_number;
     @Column(name = "amount", nullable = false)
-    private Double amount;
+    private BigDecimal amount;
 
 
     public Long getId() {
@@ -45,11 +46,11 @@ public class Transfer implements Serializable {
         this.destination_account_number = destination_account_number;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

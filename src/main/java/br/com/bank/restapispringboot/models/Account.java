@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -15,9 +16,9 @@ public class Account implements Serializable {
     @Id
     private Long number;
     @Column(name = "balance")
-    private Double balance;
-    @Column(name = "owner")
-    private Long owner;
+    private BigDecimal balance;
+    @Column(name = "email")
+    private String owner;
 
     public Long getNumber() {
         return number;
@@ -27,19 +28,19 @@ public class Account implements Serializable {
         this.number = number;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public Long getOwner() {
+    public String getOwner() {
         return owner;
     }
 
-    public void setOwner(Long owner) {
+    public void setOwner(String owner) {
         this.owner = owner;
     }
 
