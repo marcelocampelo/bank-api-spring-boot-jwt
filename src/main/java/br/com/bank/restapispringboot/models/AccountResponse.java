@@ -1,15 +1,20 @@
 package br.com.bank.restapispringboot.models;
 
+import br.com.bank.restapispringboot.responses.UserCreated;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class AccountPost implements Serializable {
+public class AccountResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long number;
 
     private BigDecimal balance;
+
+    private UserCreated user;
+
 
     public Long getNumber() {
         return number;
@@ -27,5 +32,11 @@ public class AccountPost implements Serializable {
         this.balance = balance;
     }
 
+    public UserCreated getUser() {
+        return user;
+    }
 
+    public void setUser(UserCreated user) {
+        this.user = user;
+    }
 }

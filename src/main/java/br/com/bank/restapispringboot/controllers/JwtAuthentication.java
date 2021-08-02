@@ -4,6 +4,7 @@ import br.com.bank.restapispringboot.jwtconfig.JwtTokenUtil;
 import br.com.bank.restapispringboot.models.JwtRequest;
 import br.com.bank.restapispringboot.models.JwtResponse;
 import br.com.bank.restapispringboot.models.Person;
+import br.com.bank.restapispringboot.repositories.PersonRepository;
 import br.com.bank.restapispringboot.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +36,19 @@ public class JwtAuthentication {
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-        authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+        final String email = authenticationRequest.getEmail();
+
+        authenticate(email, authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getEmail());
+                .loadUserByUsername(email);
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        //fix later the fact that the database is being queried two times, one for the name and the other for email.
+        final String name = userDetailsService.nameByUsername(email);
+
+        return ResponseEntity.ok(new JwtResponse(token, email, name));
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)

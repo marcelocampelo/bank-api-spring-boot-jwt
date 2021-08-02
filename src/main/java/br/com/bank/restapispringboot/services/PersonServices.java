@@ -20,6 +20,17 @@ public class PersonServices {
         return repository.save(person);
     }
 
+    public UserCreated userName(String email) {
+
+        UserCreated userCreated = new UserCreated();
+
+        Person person = repository.findByEmail(email);
+
+        userCreated.setEmail(person.getEmail());
+        userCreated.setName(person.getName());
+        return userCreated;
+    }
+
     public List<Person> findAll() {
         return repository.findAll();
     }
