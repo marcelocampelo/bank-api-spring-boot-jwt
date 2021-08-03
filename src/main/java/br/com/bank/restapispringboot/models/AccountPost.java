@@ -7,15 +7,15 @@ public class AccountPost implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long number;
+    private String number;
 
     private BigDecimal balance;
 
-    public Long getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Long number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

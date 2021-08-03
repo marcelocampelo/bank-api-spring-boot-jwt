@@ -2,6 +2,7 @@ package br.com.bank.restapispringboot.controllers;
 
 import br.com.bank.restapispringboot.jwtconfig.IAuthenticationFacade;
 import br.com.bank.restapispringboot.models.*;
+import br.com.bank.restapispringboot.responses.UserCreated;
 import br.com.bank.restapispringboot.services.AccountServices;
 import br.com.bank.restapispringboot.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ public class AccountController {
     public AccountResponse create(@RequestBody AccountPost newAccount) {
 
         Account account = new Account();
-        account.setNumber(newAccount.getNumber());
+        Long longNumber = Long.valueOf(newAccount.getNumber().replaceAll("[^0-9]",""));
+        account.setNumber(longNumber);
         Authentication authentication = authenticationFacade.getAuthentication();
         account.setOwner(authentication.getName());
         account.setBalance(newAccount.getBalance());
@@ -52,7 +54,22 @@ public class AccountController {
     }
 
     @PostMapping("/transfer")
-    public Transfer create(@RequestBody Transfer transfer) {
-        return services.transfer(transfer);
+    public TransferResponse transfer(@RequestBody TransferPost transferPost) {
+
+        Long longSource = Long.valueOf(transferPost.getSource_account_number().replaceAll("[^0-9]",""));
+        Long longDestination = Long.valueOf(transferPost.getDestination_account_number().replaceAll("[^0-9]",""));
+        Transfer transfer = new Transfer();
+        transfer.setAmount(transferPost.getAmount());
+        transfer.setDestination_account_number(longDestination);
+        transfer.setSource_account_number(longSource);
+
+        return services.transfer(transfer, transferPost);
     }
+
+    @PostMapping("/balance")
+    public BalanceResponse balance(@RequestBody BalancePost balancePost) {
+
+        return services.findBalanceById(balancePost.getAccount_number());
+    }
+
 }
